@@ -13,5 +13,3 @@ Docker is an open-source tool that automates the deployment of an application in
 # How to Test
 
 You can check out the installation instructions for Docker [here](https://docs.docker.com/install/)
-
-You can use Remix to test your contracts. This is a browser-only Solidity IDE and Runtime Environment. Access: https://remix.ethereum.org/
