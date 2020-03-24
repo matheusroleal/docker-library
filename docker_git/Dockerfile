@@ -3,4 +3,7 @@ FROM docker:19.03.1
 
 # Installing git for Alpine linux
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+    apk add --no-cache \
+    bash \
+    git \
+    openssh
