@@ -8,7 +8,8 @@ Docker is an open-source tool that automates the deployment of an application in
 ## Images and Tutorials
 
 - [Image containing docker and git](./docker_git)
-- [Image containing a full enviroment to build android apps](./andorid_build)
+- [Image containing a full enviroment to work with fastlane based apps](./fastlane_workspace)
+- [Image containing a full enviroment to build android apps](./android_build)
 - [Image containing a full enviroment to build javascript apps](./javascript_workspace)
 
 
