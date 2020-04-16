@@ -1,7 +1,9 @@
 FROM ubuntu:18.04
 
+ENV RUBY_VERSION="2.7.0"
+ENV RVM_CLIENT_USER="mobile-ios"
+
 USER root
-ENV RUBY_VERSION="2.4.0"
 
 # Install Build Essentials
 RUN apt-get update \
@@ -20,23 +22,42 @@ RUN apt-get update \
     curl \
     git \
     locales \
-    bash
+    bash \
+    rubygems \
+    ruby-dev \
+    whois
 
-# Install rubygems
-RUN apt-get install rubygems -y \
-    && apt-get install ruby-dev -y
+# Configure Locales in Ubuntu
+RUN locale-gen en_US.UTF-8
 
 # Install and Load RVM
 RUN curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - && curl -sSL https://rvm.io/pkuczynski.asc | gpg2 --import -
 RUN curl -sSL https://get.rvm.io | bash -s stable
-RUN echo "source ~/.rvm/scripts/rvm" >> $HOME_DIR/.profile
+# RUN echo "source ~/.rvm/scripts/rvm" >> $HOME_DIR/.profile
 
-RUN /usr/local/rvm/bin/rvm requirements
-
+# RUN /usr/local/rvm/bin/rvm requirements
 ENV PATH="${PATH}:/usr/local/rvm/bin"
-
-RUN locale-gen en_US.UTF-8
 
 ENV LANG="en_US.UTF-88" \
     LANGUAGE="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
+
+RUN useradd -s /bin/iosmobile -d /home/iosmobile/ -m -p $(mkpasswd "") -G sudo iosmobile
+
+USER iosmobile
+
+# Configuração para versão estipulada do ruby
+RUN echo "" | sudo -S /usr/local/rvm/bin/rvm install ruby-$RUBY_VERSION
+
+RUN echo "" | sudo -S /usr/local/rvm/bin/rvm ruby-$RUBY_VERSION do /usr/local/rvm/bin/rvm gemset create $RVM_CLIENT_USER
+
+RUN echo "" | sudo -S /usr/local/rvm/bin/rvm use ruby-$RUBY_VERSION@$RVM_CLIENT_USER
+
+# Comandos para usar versão estipulada do ruby
+COPY ./scripts/run.sh /usr/local/bin/run
+
+RUN echo "" | sudo -S chmod 777 /usr/local/bin/run
+
+COPY ./scripts/ios_exec.sh /usr/local/bin/ios_exec
+
+RUN echo "" | sudo -S chmod 777 /usr/local/bin/ios_exec
