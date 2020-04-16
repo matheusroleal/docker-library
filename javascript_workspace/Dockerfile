@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 USER root
 
 ENV NODE_URL="https://github.com/nodejs/node.git" \
-    NODE_VERSION=v13.10.1
+    NODE_VERSION=v11.6.0
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -39,3 +39,6 @@ RUN apt-get update \
     && apt-get install -y yarn
 
 WORKDIR /home
+
+# Install NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
