@@ -1,16 +1,14 @@
 FROM openjdk:8-jdk-alpine
 
 # Enviromental Variables Related to the System
-ENV GRADLE_VERSION=3.2 \
-    SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
+ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip" \
     ANDROID_HOME="/usr/local/android-sdk" \
     DISTRO=stretch
 
 # Enviromental Variables Related to the Code to be Used in it
 ENV ANDROID_VERSION=28 \
-    ANDROID_BUILD_TOOLS_VERSION=28.0.3 \
-    NODEREPO="node_10.x" \
-    RUBY_VERSION="2.4.0"
+    GRADLE_VERSION=3.2 \
+    ANDROID_BUILD_TOOLS_VERSION=28.0.3
 
 # Install Supporting Libs
 RUN apk update \
@@ -60,17 +58,6 @@ RUN apk update \
     ruby \
     ruby-io-console \
     ruby-bundler
-
-# Install and Load RVM
-RUN curl -sSL https://github.com/rvm/rvm/tarball/stable -o rvm-stable.tar.gz \
-    && echo 'export rvm_prefix="$HOME"' > /root/.rvmrc \
-    && echo 'export rvm_path="$HOME/.rvm"' >> /root/.rvmrc \
-    && mkdir rvm && cd rvm \
-    && tar --strip-components=1 -xzf ../rvm-stable.tar.gz \
-    && ./install --auto-dotfiles --autolibs=0
-
-# Script to Select RVM in Case of Running The Image in a Non Interactive Way
-COPY ./scripts/rvm-run.sh /usr/local/bin/rvm-run
 
 # Install Node and Yarn
 RUN apk update \

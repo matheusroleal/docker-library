@@ -5,9 +5,8 @@ This image has the objetive to be used on Android projects at CI/CD platforms li
 - Gradle
 - Android SDK Manager
 - Fastlane
-- Ruby and RVM
-- NodeJS
-- Yarn
+- Ruby
+- NodeJS and Yarn (For projects that also contains React Native parts)
 
 ## What is Gradle?
 
